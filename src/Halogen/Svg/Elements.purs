@@ -4,34 +4,40 @@
 -- | import Halogen.Svg.Elements as SE
 -- | ```
 module Halogen.Svg.Elements
-  ( element
-  , svg
-  , g
+  ( animate
+  , animateMotion
   , circle
-  , image
+  , circleNode
+  , defs
+  , element
   , ellipse
-  , rect
+  , foreignObject
+  , g
+  , image
+  , line
+  , linearGradient
+  , marker
+  , mask
+  , mpath
   , path
   , pattern
-  , line
-  , polyline
   , polygon
+  , polyline
+  , radialGradient
+  , rect
+  , set
+  , stop
+  , svg
   , text
-  , foreignObject
-  , defs
-  , mask
-  , marker
-  , animate
-  , animateMotion
-  , circleNode
-  , mpath
   , title
   , use
-  ) where
+  )
+  where
 
 -- Like Halogen.HTML.Elements
 
 import Prelude
+
 import Halogen.HTML.Core (HTML, ElemName(..), Namespace(..))
 import Halogen.HTML.Elements (Node, Leaf, elementNS)
 import Halogen.HTML.Properties (IProp)
@@ -103,6 +109,18 @@ animate props = element (ElemName "animate") props []
 animateMotion :: forall p i. Node I.SVGanimateMotion p i
 animateMotion = element (ElemName "animateMotion")
 
+linearGradient :: forall p i. Node I.SVGlinearGradient p i
+linearGradient = element $ ElemName "linearGradient"
+
+radialGradient :: forall p i. Node I.SVGradialGradient p i
+radialGradient = element $ ElemName "radialGradient"
+
+set :: forall p i. Leaf I.SVGset p i
+set props = element (ElemName "set") props []
+
+stop :: forall p i. Leaf I.SVGstop p i
+stop props = element (ElemName "stop") props []
+
 circleNode :: forall p i. Node I.SVGcircle p i
 circleNode = element (ElemName "circle")
 
@@ -112,6 +130,7 @@ mpath :: forall p i. Leaf I.SVGmpath p i
 mpath props = element (ElemName "mpath") props []
 
 --------------------------------------------------------------------------------
+
 
 title :: forall p i. Node I.SVGtitle p i
 title = element (ElemName "title")

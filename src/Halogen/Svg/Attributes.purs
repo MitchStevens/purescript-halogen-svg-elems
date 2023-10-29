@@ -7,26 +7,7 @@
 -- | `show` function to display what the ADT is and the `printX` function
 -- | to render the corresponding String value that should appear in the HTML.
 module Halogen.Svg.Attributes
-  ( module Halogen.Svg.Attributes.Align
-  , module Halogen.Svg.Attributes.Baseline
-  , module Halogen.Svg.Attributes.Color
-  , module Halogen.Svg.Attributes.CSSLength
-  , module Halogen.Svg.Attributes.Duration
-  , module Halogen.Svg.Attributes.FillState
-  , module Halogen.Svg.Attributes.FontSize
-  , module Halogen.Svg.Attributes.FontStyle
-  , module Halogen.Svg.Attributes.FontStretch
-  , module Halogen.Svg.Attributes.FontWeight
-  , module Halogen.Svg.Attributes.MarkerUnit
-  , module Halogen.Svg.Attributes.MaskUnit
-  , module Halogen.Svg.Attributes.MeetOrSlice
-  , module Halogen.Svg.Attributes.Orient
-  , module Halogen.Svg.Attributes.Path
-  , module Halogen.Svg.Attributes.StrokeLineCap
-  , module Halogen.Svg.Attributes.StrokeLineJoin
-  , module Halogen.Svg.Attributes.TextAnchor
-  , module Halogen.Svg.Attributes.Transform
-  , attributeName
+  ( attributeName
   , begin
   , class_
   , classes
@@ -37,6 +18,7 @@ module Halogen.Svg.Attributes
   , dur
   , fill
   , fillAnim
+  , fillGradient
   , fillOpacity
   , fontFamily
   , fontSize
@@ -45,19 +27,42 @@ module Halogen.Svg.Attributes
   , fontStyle
   , fontVariant
   , fontWeight
+  , fr
   , from
-  , to
+  , fy
+  , gradientTransform
+  , height
   , href
   , id
-  , markerStart
-  , markerMid
   , markerEnd
+  , markerHeight
+  , markerMid
+  , markerStart
   , markerUnits
   , markerWidth
-  , markerHeight
   , mask
-  , maskUnits
   , maskContentUnits
+  , maskUnits
+  , module Halogen.Svg.Attributes.Align
+  , module Halogen.Svg.Attributes.Baseline
+  , module Halogen.Svg.Attributes.CSSLength
+  , module Halogen.Svg.Attributes.Color
+  , module Halogen.Svg.Attributes.Duration
+  , module Halogen.Svg.Attributes.FillState
+  , module Halogen.Svg.Attributes.FontSize
+  , module Halogen.Svg.Attributes.FontStretch
+  , module Halogen.Svg.Attributes.FontStyle
+  , module Halogen.Svg.Attributes.FontWeight
+  , module Halogen.Svg.Attributes.MarkerUnit
+  , module Halogen.Svg.Attributes.MaskUnit
+  , module Halogen.Svg.Attributes.MeetOrSlice
+  , module Halogen.Svg.Attributes.Orient
+  , module Halogen.Svg.Attributes.Path
+  , module Halogen.Svg.Attributes.StrokeLineCap
+  , module Halogen.Svg.Attributes.StrokeLineJoin
+  , module Halogen.Svg.Attributes.TextAnchor
+  , module Halogen.Svg.Attributes.Transform
+  , offset
   , orient
   , path
   , pathLength
@@ -72,6 +77,8 @@ module Halogen.Svg.Attributes
   , repeatCount
   , rx
   , ry
+  , spreadMethod
+  , stopColor
   , stroke
   , strokeDashArray
   , strokeDashOffset
@@ -81,18 +88,19 @@ module Halogen.Svg.Attributes
   , strokeOpacity
   , strokeWidth
   , textAnchor
+  , to
   , transform
   , viewBox
   , width
-  , height
   , x
-  , y
   , x1
-  , y1
   , x2
-  , y2
   , xlinkHref
-  ) where
+  , y
+  , y1
+  , y2
+  )
+  where
 
 import Prelude
 
@@ -113,6 +121,7 @@ import Halogen.Svg.Attributes.FontSize (FontSize(..), printFontSize)
 import Halogen.Svg.Attributes.FontStretch (FontStretch, printFontStretch)
 import Halogen.Svg.Attributes.FontStyle (FontStyle, printFontStyle)
 import Halogen.Svg.Attributes.FontWeight (FontWeight, printFontWeight)
+import Halogen.Svg.Attributes.Gradient (SpreadMethod)
 import Halogen.Svg.Attributes.MarkerUnit (MarkerUnit(..), printMarkerUnit)
 import Halogen.Svg.Attributes.MaskUnit (MaskUnit(..), printMaskUnit)
 import Halogen.Svg.Attributes.MeetOrSlice (MeetOrSlice(..), printMeetOrSlice)
@@ -168,6 +177,9 @@ fillAnim = attr (H.AttrName "fill") <<< printFillState
 fillOpacity :: forall r i. Number -> IProp (fillOpacity :: Number | r) i
 fillOpacity = attr (H.AttrName "fill-opacity") <<< show
 
+fillGradient :: forall r i. String -> IProp (fill :: String | r) i
+fillGradient url = attr (H.AttrName "fill") ("url('" <> url <> "')")
+
 fontFamily :: forall r i. String -> IProp (fontFamily :: String | r) i
 fontFamily = attr (H.AttrName "font-family")
 
@@ -188,6 +200,18 @@ fontVariant = attr (H.AttrName "font-variant")
 
 fontWeight :: forall r i. FontWeight -> IProp (fontWeight :: String | r) i
 fontWeight = attr (H.AttrName "font-weight") <<< printFontWeight
+
+fr :: forall r i. Number -> IProp (fr :: Number | r) i
+fr = attr (H.AttrName "fr") <<< show
+
+fx :: forall r i. Number -> IProp (fx :: Number | r) i
+fx = attr (H.AttrName "fx") <<< show
+
+fy :: forall r i. Number -> IProp (fy :: Number | r) i
+fy = attr (H.AttrName "fy") <<< show
+
+gradientTransform :: forall r i. Array Transform -> IProp (gradientTransform :: String | r) i
+gradientTransform = attr (H.AttrName "gradientTransform") <<< joinWith " " <<< map printTransform
 
 -- https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/from
 from :: forall r i. String -> IProp (from :: String | r) i
@@ -226,6 +250,9 @@ maskUnits = attr (H.AttrName "maskUnits") <<< printMaskUnit
 
 maskContentUnits :: forall r i. MaskUnit -> IProp (maskContentUnits :: String | r) i
 maskContentUnits = attr (H.AttrName "maskContentUnits") <<< printMaskUnit
+
+offset :: forall r i. String -> IProp (offset :: String | r) i
+offset = attr (H.AttrName "offset")
 
 orient :: forall r i. Orient -> IProp (orient :: String | r) i
 orient = attr (H.AttrName "orient") <<< printOrient
@@ -279,6 +306,12 @@ rx = attr (H.AttrName "rx") <<< show
 
 ry :: forall r i. Number -> IProp (ry :: Number | r) i
 ry = attr (H.AttrName "ry") <<< show
+
+stopColor :: forall r i. Color -> IProp (stopColor :: Color | r) i
+stopColor = attr (H.AttrName "stop-color") <<< printColor
+
+spreadMethod :: forall r i. SpreadMethod -> IProp (spreadMethod :: SpreadMethod | r) i
+spreadMethod = attr (H.AttrName "spreadMethod") <<< show
 
 stroke :: forall r i. Color -> IProp (stroke :: String | r) i
 stroke = attr (H.AttrName "stroke") <<< printColor

@@ -1,39 +1,46 @@
 -- | Note: an element may contain more attributes than what
 -- | we currently allow in its corresponding `SVGelemName`.
 module Halogen.Svg.Indexed
-  ( CoreAttributes
-  , GlobalEventAttributes
-  , GlobalAttributes
-  , StrokeAttributes
-  , StokeEndAttributes
-  , StrokeJoinAttributes
-  , FillAttributes
-  , MarkerAttributes
-  , FontAttributes
-  , CanBeMaskedAttributes
-  , AllPresentationAttributes
-  , SVGsvg
-  , SVGg
-  , SVGforeignObject
-  , SVGmarker
-  , SVGcircle
-  , SVGellipse
-  , SVGline
-  , SVGpolyline
-  , SVGpolygon
-  , SVGpath
-  , SVGpattern
-  , SVGrect
-  , SVGtext
+  ( AllPresentationAttributes
   , AnimationAttributes
+  , CanBeMaskedAttributes
+  , CoreAttributes
+  , FillAttributes
+  , FontAttributes
+  , GlobalAttributes
+  , GlobalEventAttributes
+  , GradientAttributes
+  , MarkerAttributes
   , SVGanimate
   , SVGanimateMotion
+  , SVGcircle
+  , SVGellipse
+  , SVGforeignObject
+  , SVGg
   , SVGimage
+  , SVGline
+  , SVGlinearGradient
+  , SVGmarker
   , SVGmpath
+  , SVGpath
+  , SVGpattern
+  , SVGpolygon
+  , SVGpolyline
+  , SVGradialGradient
+  , SVGrect
+  , SVGset
+  , SVGstop
+  , SVGsvg
+  , SVGtext
   , SVGtitle
   , SVGuse
-  ) where
+  , StokeEndAttributes
+  , StrokeAttributes
+  , StrokeJoinAttributes
+  )
+  where
 
+import Halogen.Svg.Attributes (Color)
 import Type.Row (type (+))
 import Web.UIEvent.KeyboardEvent (KeyboardEvent)
 import Web.UIEvent.MouseEvent (MouseEvent)
@@ -232,7 +239,7 @@ type SVGpolyline
     )
 
 type SVGpolygon
-  = GlobalAttributes + CanBeMaskedAttributes + StrokeAttributes + StokeEndAttributes + MarkerAttributes
+  = GlobalAttributes + CanBeMaskedAttributes + StrokeAttributes + StokeEndAttributes + MarkerAttributes + FillAttributes
   +
     ( points :: String
     , pathLength :: Number
@@ -324,6 +331,13 @@ type SVGanimate = AnimationAttributes (attributeName :: String)
 
 type SVGanimateMotion = AnimationAttributes (path :: String)
 
+type SVGset = CoreAttributes + AnimationAttributes  ()
+
+type SVGstop = CoreAttributes + AnimationAttributes
+  ( offset :: String
+  , stopColor :: Color
+  , stopOpacity :: Number )
+
 type SVGimage
   = GlobalAttributes
   ( x :: Number
@@ -340,3 +354,25 @@ type SVGmpath = (xlinkHref :: String)
 --------------------------------------------------------------------------------
 
 type SVGtitle = GlobalAttributes ()
+
+type GradientAttributes r =
+  ( gradientUnits :: String
+  , gradientTransform :: String
+  , href :: String
+  , spreadMethod :: String
+  | r )
+
+type SVGlinearGradient = CoreAttributes + GlobalEventAttributes + StrokeAttributes + GradientAttributes
+  ( x1 :: Number
+  , y1 :: Number
+  , x2 :: Number
+  , y2 :: Number
+  )
+
+type SVGradialGradient = CoreAttributes + GlobalEventAttributes + StrokeAttributes + GradientAttributes
+  ( cx :: Number
+  , cy :: Number
+  , fr :: Number
+  , fx :: Number
+  , fy :: Number
+  )

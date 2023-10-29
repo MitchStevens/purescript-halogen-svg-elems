@@ -8,11 +8,13 @@ import Effect (Effect)
 import Effect.Aff (Aff, launchAff_)
 import Halogen (ClassName(..), Component)
 import Halogen.Aff (selectElement)
+import Halogen.HTML (HTML)
 import Halogen.HTML as HH
 import Halogen.HTML.Properties as HP
 import Halogen.Hooks as Hooks
-import Halogen.Svg.Attributes (Color(..))
+import Halogen.Svg.Attributes (Color(..), Transform(..))
 import Halogen.Svg.Attributes as SA
+import Halogen.Svg.Elements (polygon)
 import Halogen.Svg.Elements as SE
 import Halogen.VDom.Driver (runUI)
 import Web.DOM.ParentNode (QuerySelector(..))
@@ -72,6 +74,18 @@ rootComp = Hooks.component \_ _ -> Hooks.do
               , SA.r 4.0
               , SA.stroke $ Named "blue"
               ]
+          , SE.linearGradient
+              [ SA.id "sunset"
+              , SA.gradientTransform [ Rotate 90.0 0.0 0.0 ]
+              ] 
+              [ SE.stop [ SA.offset "5%", SA.stopColor (Named "gold")  ]
+              , SE.stop [ SA.offset "95%", SA.stopColor (Named "red")  ]
+              ]
+          , SE.radialGradient
+              [ SA.id "fireball"]
+              [ SE.stop [ SA.offset "10%", SA.stopColor (Named "gold")  ]
+              , SE.stop [ SA.offset "95%", SA.stopColor (Named "red")  ]
+              ]
           , SE.use
               [ SA.href "#circleId"
               , SA.x 10.0
@@ -81,6 +95,18 @@ rootComp = Hooks.component \_ _ -> Hooks.do
               [ SA.href "#circleId"
               , SA.x 20.0
               , SA.fill $ Named "white"
+              , SA.stroke $ Named "red"
+              ]
+          , SE.use
+              [ SA.href "#circleId"
+              , SA.x 30.0
+              , SA.fillGradient "#sunset"
+              , SA.stroke $ Named "red"
+              ]
+          , SE.use
+              [ SA.href "#circleId"
+              , SA.x 40.0
+              , SA.fillGradient "#fireball"
               , SA.stroke $ Named "red"
               ]
           ]

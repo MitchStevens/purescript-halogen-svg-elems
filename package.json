@@ -11,6 +11,7 @@
   ],
   "scripts": {
     "test": "spago bundle-app -m Test.Main -t dist/test.js",
+    "test-watch": "spago bundle-app -m Test.Main -t dist/test.js --watch",
     "format": "purs-tidy format-in-place src test"
   }
 }
