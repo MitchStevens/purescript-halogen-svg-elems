@@ -7,7 +7,26 @@
 -- | `show` function to display what the ADT is and the `printX` function
 -- | to render the corresponding String value that should appear in the HTML.
 module Halogen.Svg.Attributes
-  ( attributeName
+  ( module Halogen.Svg.Attributes.Align
+  , module Halogen.Svg.Attributes.Baseline
+  , module Halogen.Svg.Attributes.CSSLength
+  , module Halogen.Svg.Attributes.Color
+  , module Halogen.Svg.Attributes.Duration
+  , module Halogen.Svg.Attributes.FillState
+  , module Halogen.Svg.Attributes.FontSize
+  , module Halogen.Svg.Attributes.FontStretch
+  , module Halogen.Svg.Attributes.FontStyle
+  , module Halogen.Svg.Attributes.FontWeight
+  , module Halogen.Svg.Attributes.MarkerUnit
+  , module Halogen.Svg.Attributes.MaskUnit
+  , module Halogen.Svg.Attributes.MeetOrSlice
+  , module Halogen.Svg.Attributes.Orient
+  , module Halogen.Svg.Attributes.Path
+  , module Halogen.Svg.Attributes.StrokeLineCap
+  , module Halogen.Svg.Attributes.StrokeLineJoin
+  , module Halogen.Svg.Attributes.TextAnchor
+  , module Halogen.Svg.Attributes.Transform
+  , attributeName
   , begin
   , class_
   , classes
@@ -43,25 +62,6 @@ module Halogen.Svg.Attributes
   , mask
   , maskContentUnits
   , maskUnits
-  , module Halogen.Svg.Attributes.Align
-  , module Halogen.Svg.Attributes.Baseline
-  , module Halogen.Svg.Attributes.CSSLength
-  , module Halogen.Svg.Attributes.Color
-  , module Halogen.Svg.Attributes.Duration
-  , module Halogen.Svg.Attributes.FillState
-  , module Halogen.Svg.Attributes.FontSize
-  , module Halogen.Svg.Attributes.FontStretch
-  , module Halogen.Svg.Attributes.FontStyle
-  , module Halogen.Svg.Attributes.FontWeight
-  , module Halogen.Svg.Attributes.MarkerUnit
-  , module Halogen.Svg.Attributes.MaskUnit
-  , module Halogen.Svg.Attributes.MeetOrSlice
-  , module Halogen.Svg.Attributes.Orient
-  , module Halogen.Svg.Attributes.Path
-  , module Halogen.Svg.Attributes.StrokeLineCap
-  , module Halogen.Svg.Attributes.StrokeLineJoin
-  , module Halogen.Svg.Attributes.TextAnchor
-  , module Halogen.Svg.Attributes.Transform
   , offset
   , orient
   , path
@@ -121,7 +121,7 @@ import Halogen.Svg.Attributes.FontSize (FontSize(..), printFontSize)
 import Halogen.Svg.Attributes.FontStretch (FontStretch, printFontStretch)
 import Halogen.Svg.Attributes.FontStyle (FontStyle, printFontStyle)
 import Halogen.Svg.Attributes.FontWeight (FontWeight, printFontWeight)
-import Halogen.Svg.Attributes.Gradient (SpreadMethod)
+import Halogen.Svg.Attributes.Gradient (GradientUnits, SpreadMethod)
 import Halogen.Svg.Attributes.MarkerUnit (MarkerUnit(..), printMarkerUnit)
 import Halogen.Svg.Attributes.MaskUnit (MaskUnit(..), printMaskUnit)
 import Halogen.Svg.Attributes.MeetOrSlice (MeetOrSlice(..), printMeetOrSlice)
@@ -209,6 +209,9 @@ fx = attr (H.AttrName "fx") <<< show
 
 fy :: forall r i. Number -> IProp (fy :: Number | r) i
 fy = attr (H.AttrName "fy") <<< show
+
+gradientUnits :: forall r i. GradientUnits -> IProp (gradientUnits :: GradientUnits | r) i
+gradientUnits = attr (H.AttrName "gradientUnits")
 
 gradientTransform :: forall r i. Array Transform -> IProp (gradientTransform :: String | r) i
 gradientTransform = attr (H.AttrName "gradientTransform") <<< joinWith " " <<< map printTransform
