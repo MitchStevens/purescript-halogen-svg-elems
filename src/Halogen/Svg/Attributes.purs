@@ -17,6 +17,7 @@ module Halogen.Svg.Attributes
   , module Halogen.Svg.Attributes.FontStretch
   , module Halogen.Svg.Attributes.FontStyle
   , module Halogen.Svg.Attributes.FontWeight
+  , module Halogen.Svg.Attributes.Gradient
   , module Halogen.Svg.Attributes.MarkerUnit
   , module Halogen.Svg.Attributes.MaskUnit
   , module Halogen.Svg.Attributes.MeetOrSlice
