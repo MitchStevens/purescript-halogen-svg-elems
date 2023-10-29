@@ -84,7 +84,7 @@ rootComp = Hooks.component \_ _ -> Hooks.do
           , SE.radialGradient
               [ SA.id "fireball" ]
               [ SE.stop [ SA.offset "10%", SA.stopColor (Named "gold") ]
-              , SE.stop [ SA.offset "95%", SA.stopColor (Named "red") ]
+              , SE.stop [ SA.offset "95%", SA.stopColor (Named "red"), SA.stopOpacity 0.3 ]
               ]
           , SE.use
               [ SA.href "#circleId"

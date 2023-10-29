@@ -6,27 +6,7 @@
 -- | `show` function to display what the ADT is and the `printX` function
 -- | to render the corresponding String value that should appear in the HTML.
 module Halogen.Svg.Attributes
-  ( module Halogen.Svg.Attributes.Align
-  , module Halogen.Svg.Attributes.Baseline
-  , module Halogen.Svg.Attributes.CSSLength
-  , module Halogen.Svg.Attributes.Color
-  , module Halogen.Svg.Attributes.Duration
-  , module Halogen.Svg.Attributes.FillState
-  , module Halogen.Svg.Attributes.FontSize
-  , module Halogen.Svg.Attributes.FontStretch
-  , module Halogen.Svg.Attributes.FontStyle
-  , module Halogen.Svg.Attributes.FontWeight
-  , module Halogen.Svg.Attributes.Gradient
-  , module Halogen.Svg.Attributes.MarkerUnit
-  , module Halogen.Svg.Attributes.MaskUnit
-  , module Halogen.Svg.Attributes.MeetOrSlice
-  , module Halogen.Svg.Attributes.Orient
-  , module Halogen.Svg.Attributes.Path
-  , module Halogen.Svg.Attributes.StrokeLineCap
-  , module Halogen.Svg.Attributes.StrokeLineJoin
-  , module Halogen.Svg.Attributes.TextAnchor
-  , module Halogen.Svg.Attributes.Transform
-  , attributeName
+  ( attributeName
   , begin
   , class_
   , classes
@@ -64,6 +44,26 @@ module Halogen.Svg.Attributes
   , mask
   , maskContentUnits
   , maskUnits
+  , module Halogen.Svg.Attributes.Align
+  , module Halogen.Svg.Attributes.Baseline
+  , module Halogen.Svg.Attributes.CSSLength
+  , module Halogen.Svg.Attributes.Color
+  , module Halogen.Svg.Attributes.Duration
+  , module Halogen.Svg.Attributes.FillState
+  , module Halogen.Svg.Attributes.FontSize
+  , module Halogen.Svg.Attributes.FontStretch
+  , module Halogen.Svg.Attributes.FontStyle
+  , module Halogen.Svg.Attributes.FontWeight
+  , module Halogen.Svg.Attributes.Gradient
+  , module Halogen.Svg.Attributes.MarkerUnit
+  , module Halogen.Svg.Attributes.MaskUnit
+  , module Halogen.Svg.Attributes.MeetOrSlice
+  , module Halogen.Svg.Attributes.Orient
+  , module Halogen.Svg.Attributes.Path
+  , module Halogen.Svg.Attributes.StrokeLineCap
+  , module Halogen.Svg.Attributes.StrokeLineJoin
+  , module Halogen.Svg.Attributes.TextAnchor
+  , module Halogen.Svg.Attributes.Transform
   , offset
   , orient
   , path
@@ -81,6 +81,7 @@ module Halogen.Svg.Attributes
   , ry
   , spreadMethod
   , stopColor
+  , stopOpacity
   , stroke
   , strokeDashArray
   , strokeDashOffset
@@ -101,7 +102,8 @@ module Halogen.Svg.Attributes
   , y
   , y1
   , y2
-  ) where
+  )
+  where
 
 import Prelude
 
@@ -313,6 +315,9 @@ ry = attr (H.AttrName "ry") <<< show
 
 stopColor :: forall r i. Color -> IProp (stopColor :: Color | r) i
 stopColor = attr (H.AttrName "stop-color") <<< printColor
+
+stopOpacity :: forall r i. Number -> IProp (stopOpacity :: Number | r) i
+stopOpacity = attr (H.AttrName "stop-opacity") <<< show
 
 spreadMethod :: forall r i. SpreadMethod -> IProp (spreadMethod :: SpreadMethod | r) i
 spreadMethod = attr (H.AttrName "spreadMethod") <<< show
