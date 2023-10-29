@@ -1,4 +1,3 @@
-
 -- | Similar to `Halogen.HTML.Properties`. You should always use
 -- | this module's entities (e.g. `class_`) over its corresponding
 -- | value in `Halogen.HTML.Properties (e.g. `HP.class_`).
@@ -49,8 +48,10 @@ module Halogen.Svg.Attributes
   , fontWeight
   , fr
   , from
+  , fx
   , fy
   , gradientTransform
+  , gradientUnits
   , height
   , href
   , id
@@ -100,8 +101,7 @@ module Halogen.Svg.Attributes
   , y
   , y1
   , y2
-  )
-  where
+  ) where
 
 import Prelude
 
@@ -212,7 +212,7 @@ fy :: forall r i. Number -> IProp (fy :: Number | r) i
 fy = attr (H.AttrName "fy") <<< show
 
 gradientUnits :: forall r i. GradientUnits -> IProp (gradientUnits :: GradientUnits | r) i
-gradientUnits = attr (H.AttrName "gradientUnits")
+gradientUnits = attr (H.AttrName "gradientUnits") <<< show
 
 gradientTransform :: forall r i. Array Transform -> IProp (gradientTransform :: String | r) i
 gradientTransform = attr (H.AttrName "gradientTransform") <<< joinWith " " <<< map printTransform
@@ -270,7 +270,7 @@ points = attr (H.AttrName "points") <<< Array.intercalate " " <<< map (\(Tuple x
 
 pathLength :: forall r i. Number -> IProp (pathLength :: Number | r) i
 pathLength = attr (H.AttrName "pathLength") <<< show
- 
+
 patternContentUnits :: forall r i. String -> IProp (patternContentUnits :: String | r) i
 patternContentUnits = attr (H.AttrName "patternContentUnits")
 

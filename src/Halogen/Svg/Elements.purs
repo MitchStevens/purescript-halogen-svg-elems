@@ -31,8 +31,7 @@ module Halogen.Svg.Elements
   , text
   , title
   , use
-  )
-  where
+  ) where
 
 -- Like Halogen.HTML.Elements
 
@@ -130,7 +129,6 @@ mpath :: forall p i. Leaf I.SVGmpath p i
 mpath props = element (ElemName "mpath") props []
 
 --------------------------------------------------------------------------------
-
 
 title :: forall p i. Node I.SVGtitle p i
 title = element (ElemName "title")

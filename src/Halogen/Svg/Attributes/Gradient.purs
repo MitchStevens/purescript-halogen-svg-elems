@@ -2,7 +2,7 @@ module Halogen.Svg.Attributes.Gradient where
 
 import Prelude
 
-data GradientUnits = UserSpaceOnUse | ObjectBoundingBox 
+data GradientUnits = UserSpaceOnUse | ObjectBoundingBox
 
 instance Show GradientUnits where
   show = case _ of
