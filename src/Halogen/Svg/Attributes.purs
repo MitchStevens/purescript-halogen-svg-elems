@@ -102,8 +102,7 @@ module Halogen.Svg.Attributes
   , y
   , y1
   , y2
-  )
-  where
+  ) where
 
 import Prelude
 

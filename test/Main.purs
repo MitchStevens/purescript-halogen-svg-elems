@@ -67,24 +67,35 @@ rootComp = Hooks.component \_ _ -> Hooks.do
           ]
       , testSvg Small
           -- https://developer.mozilla.org/en-US/docs/Web/SVG/Element/use
-          [ SE.circle
-              [ HP.id "circleId"
-              , SA.cx 5.0
-              , SA.cy 5.0
-              , SA.r 4.0
-              , SA.stroke $ Named "blue"
-              ]
-          , SE.linearGradient
-              [ SA.id "sunset"
-              , SA.gradientTransform [ Rotate 90.0 0.0 0.0 ]
-              ]
-              [ SE.stop [ SA.offset "5%", SA.stopColor (Named "gold") ]
-              , SE.stop [ SA.offset "95%", SA.stopColor (Named "red") ]
-              ]
-          , SE.radialGradient
-              [ SA.id "fireball" ]
-              [ SE.stop [ SA.offset "10%", SA.stopColor (Named "gold") ]
-              , SE.stop [ SA.offset "95%", SA.stopColor (Named "red"), SA.stopOpacity 0.3 ]
+          [ SE.defs []
+              [ SE.circle
+                  [ HP.id "circleId"
+                  , SA.cx 5.0
+                  , SA.cy 5.0
+                  , SA.r 4.0
+                  , SA.stroke $ Named "blue"
+                  ]
+              , SE.polyline
+                  [ HP.id "polylineId"
+                  , SA.points
+                      [ Tuple 1.0 1.0
+                      , Tuple 1.0 9.0
+                      , Tuple 9.0 9.0
+                      , Tuple 9.0 1.0
+                      ]
+                  ]
+              , SE.linearGradient
+                  [ SA.id "sunset"
+                  , SA.gradientTransform [ Rotate 90.0 0.0 0.0 ]
+                  ]
+                  [ SE.stop [ SA.offset "5%", SA.stopColor (Named "gold") ]
+                  , SE.stop [ SA.offset "95%", SA.stopColor (Named "red") ]
+                  ]
+              , SE.radialGradient
+                  [ SA.id "fireball" ]
+                  [ SE.stop [ SA.offset "10%", SA.stopColor (Named "gold") ]
+                  , SE.stop [ SA.offset "95%", SA.stopColor (Named "red"), SA.stopOpacity 0.3 ]
+                  ]
               ]
           , SE.use
               [ SA.href "#circleId"
@@ -107,6 +118,12 @@ rootComp = Hooks.component \_ _ -> Hooks.do
               [ SA.href "#circleId"
               , SA.x 40.0
               , SA.fillGradient "#fireball"
+              , SA.stroke $ Named "red"
+              ]
+          , SE.use
+              [ SA.href "#polylineId"
+              , SA.x 50.0
+              , SA.fillGradient "#sunset"
               , SA.stroke $ Named "red"
               ]
           ]

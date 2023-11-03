@@ -221,7 +221,7 @@ type SVGline = GlobalAttributes + CanBeMaskedAttributes + StrokeAttributes + Sto
     , transform :: String
     )
 
-type SVGpolyline = GlobalAttributes + CanBeMaskedAttributes + StrokeAttributes + StokeEndAttributes + MarkerAttributes
+type SVGpolyline = GlobalAttributes + CanBeMaskedAttributes + StrokeAttributes + StokeEndAttributes + MarkerAttributes + FillAttributes
   +
     ( points :: String
     , pathLength :: Number
