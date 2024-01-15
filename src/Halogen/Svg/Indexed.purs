@@ -182,6 +182,7 @@ type SVGmarker = GlobalAttributes + AllPresentationAttributes
     , refY :: Number
     , orient :: String
     , markerUnits :: String
+    , viewBox :: String
     )
 
 type SVGmask = GlobalAttributes + AllPresentationAttributes
