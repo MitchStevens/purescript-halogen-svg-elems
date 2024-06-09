@@ -1,0 +1,31 @@
+package:
+  name: halogen-svg-elems
+  dependencies:
+    - aff
+    - arrays
+    - effect
+    - foldable-traversable
+    - halogen
+    - halogen-hooks
+    - maybe
+    - newtype
+    - prelude
+    - safe-coerce
+    - strings
+    - tuples
+    - typelevel-prelude
+    - web-dom
+    - web-uievents
+
+  bundle:
+    minify: false
+    module: Main
+    outfile: "dist/test.js"
+    platform: browser
+    type: "app"
+
+
+
+workspace:
+  package_set:
+    registry: 50.0.0

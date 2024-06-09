@@ -1,16 +1,7 @@
 -- | Note: an element may contain more attributes than what
 -- | we currently allow in its corresponding `SVGelemName`.
 module Halogen.Svg.Indexed
-  ( AllPresentationAttributes
-  , AnimationAttributes
-  , CanBeMaskedAttributes
-  , CoreAttributes
-  , FillAttributes
-  , FontAttributes
-  , GlobalAttributes
-  , GlobalEventAttributes
-  , GradientAttributes
-  , MarkerAttributes
+  ( AnimationAttributes
   , SVGanimate
   , SVGanimateMotion
   , SVGcircle
@@ -19,14 +10,13 @@ module Halogen.Svg.Indexed
   , SVGg
   , SVGimage
   , SVGline
-  , SVGlinearGradient
   , SVGmarker
+  , SVGmask
   , SVGmpath
   , SVGpath
   , SVGpattern
   , SVGpolygon
   , SVGpolyline
-  , SVGradialGradient
   , SVGrect
   , SVGset
   , SVGstop
@@ -34,133 +24,34 @@ module Halogen.Svg.Indexed
   , SVGtext
   , SVGtitle
   , SVGuse
-  , StokeEndAttributes
-  , StrokeAttributes
-  , StrokeJoinAttributes
-  ) where
+  , module Halogen.Svg.Indexed.Class
+  , module Halogen.Svg.Indexed.Filter
+  , module Halogen.Svg.Indexed.Gradient
+  )
+  where
+
+
+import Halogen.Svg.Indexed.Class
+import Halogen.Svg.Indexed.Filter
+import Halogen.Svg.Indexed.Gradient
 
 import Halogen.Svg.Attributes (Color)
+import Halogen.Svg.Indexed.Class (AllPresentationAttributes, CanBeMaskedAttributes, CoreAttributes, FillAttributes, FontAttributes, GlobalAttributes, MarkerAttributes, StrokeAttributes, StrokeJoinAttributes, StrokeEndAttributes)
 import Type.Row (type (+))
 import Web.UIEvent.KeyboardEvent (KeyboardEvent)
 import Web.UIEvent.MouseEvent (MouseEvent)
 import Web.UIEvent.WheelEvent (WheelEvent)
 
-{-
-The table below show which groups of attributes apply to which elements. This
-table is compiled by looking up each attribute on MDN
-(e.g., https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke)
-and looking at the list labeled "You can use this attribute with the following
-SVG elements:". Groups are formed from attributes that have the same element
-applicability.
-
-element            stroke | strokeEnd | strokeJoin | fill  | font  | marker
-circle                X   |     -     |     -      |   X   |   -   |    X
-ellipse               X   |     -     |     -      |   X   |   -   |    X
-line                  X   |     X     |     -      |   -   |   -   |    X
-path                  X   |     X     |     X      |   X   |   -   |    X
-rect                  X   |     -     |     X      |   X   |   -   |    X
-text                  X   |     X     |     X      |   X   |   X   |    -
-svg                   C   |     C     |     C      |   C   |   C   |    C
-g                     C   |     C     |     C      |   C   |   C   |    C
-marker                C   |     C     |     C      |   C   |   C   |    C
-foreignObject         C   |     C     |     C      |   C   |   C   |    C
-use                   -   |     -     |     -      |   -   |   -   |    -
-
-X indicates that the collection of attributes applies to that element
-- indicates that the collection of attributes does not apply to that element
-C indicates that the collection of attributes does not apply to that element
-  but may apply to a child element and hence can still be set
--}
-
--- These core attributes are applicable to every element
-type CoreAttributes r = (id :: String, "class" :: String, style :: String, tabIndex :: Int, lang :: String | r)
-
--- Subset of events that work on Firefox 60/Chromium 66
-type GlobalEventAttributes r =
-  ( onClick :: MouseEvent
-  , onDoubleClick :: MouseEvent
-  , onContextMenu :: MouseEvent
-  , onKeyDown :: KeyboardEvent
-  , onKeyPress :: KeyboardEvent
-  , onKeyUp :: KeyboardEvent
-  , onMouseDown :: MouseEvent
-  , onMouseEnter :: MouseEvent
-  , onMouseLeave :: MouseEvent
-  , onMouseMove :: MouseEvent
-  , onMouseOut :: MouseEvent
-  , onMouseOver :: MouseEvent
-  , onMouseUp :: MouseEvent
-  , onWheel :: WheelEvent
-  | r
-  )
-
-type GlobalAttributes r = CoreAttributes + GlobalEventAttributes + r
-
--- Presentation attributes, grouped by applicability (see table above) ---------
-type StrokeAttributes r =
-  ( stroke :: String
-  , strokeDashArray :: String
-  , strokeDashOffset :: Number
-  , strokeOpacity :: Number
-  , strokeWidth :: Number
-  | r
-  )
-
-type StokeEndAttributes r =
-  ( strokeLineCap :: String
-  | r
-  )
-
-type StrokeJoinAttributes r =
-  ( strokeLineJoin :: String
-  , strokeMiterLimit :: String
-  | r
-  )
-
-type FillAttributes r =
-  ( fill :: String
-  , fillOpacity :: Number
-  | r
-  )
-
-type MarkerAttributes r =
-  ( markerStart :: String
-  , markerMid :: String
-  , markerEnd :: String
-  | r
-  )
-
-type FontAttributes r =
-  ( fontFamily :: String
-  , fontSize :: String
-  , fontSizeAdjust :: Number
-  , fontStretch :: String
-  , fontStyle :: String
-  , fontVariant :: String
-  , fontWeight :: String
-  | r
-  )
-
-type CanBeMaskedAttributes r =
-  ( mask :: String
-  | r
-  )
-
-type AllPresentationAttributes r = StrokeAttributes + StrokeJoinAttributes + StokeEndAttributes
-  + FillAttributes
-  + FontAttributes
-  + MarkerAttributes
-  + CanBeMaskedAttributes
-  + r
 
 -- Specific SVG elements -------------------------------------------------------
-type SVGsvg = GlobalAttributes + AllPresentationAttributes
-  +
-    ( width :: Number
-    , height :: Number
-    , viewBox :: String
-    , preserveAspectRatio :: String
-    )
+type SVGsvg = GlobalAttributes + AllPresentationAttributes +
+  ( width :: Number
+  , height :: Number
+  , viewBox :: String
+  , preserveAspectRatio :: String
+  )
+
+
 
 type SVGg = GlobalAttributes + AllPresentationAttributes
   + (transform :: String)
@@ -213,7 +104,7 @@ type SVGellipse = GlobalAttributes + CanBeMaskedAttributes + StrokeAttributes + 
     , transform :: String
     )
 
-type SVGline = GlobalAttributes + CanBeMaskedAttributes + StrokeAttributes + StokeEndAttributes + MarkerAttributes
+type SVGline = GlobalAttributes + CanBeMaskedAttributes + StrokeAttributes + StrokeEndAttributes + MarkerAttributes
   +
     ( x1 :: Number
     , y1 :: Number
@@ -222,23 +113,36 @@ type SVGline = GlobalAttributes + CanBeMaskedAttributes + StrokeAttributes + Sto
     , transform :: String
     )
 
-type SVGpolyline = GlobalAttributes + CanBeMaskedAttributes + StrokeAttributes + StokeEndAttributes + MarkerAttributes + FillAttributes
-  +
+type SVGpolyline =
+  GlobalAttributes +
+  CanBeMaskedAttributes +
+  StrokeAttributes +
+  StrokeEndAttributes +
+  MarkerAttributes +
+  FillAttributes +
     ( points :: String
     , pathLength :: Number
     )
 
-type SVGpolygon = GlobalAttributes + CanBeMaskedAttributes + StrokeAttributes + StokeEndAttributes + MarkerAttributes + FillAttributes
-  +
+type SVGpolygon = 
+  GlobalAttributes + 
+  CanBeMaskedAttributes + 
+  StrokeAttributes + 
+  StrokeEndAttributes + 
+  MarkerAttributes + 
+  FillAttributes +
     ( points :: String
     , pathLength :: Number
     )
 
-type SVGpath = GlobalAttributes + CanBeMaskedAttributes + StrokeAttributes + StokeEndAttributes
-  + StrokeJoinAttributes
-  + FillAttributes
-  + MarkerAttributes
-  +
+type SVGpath = 
+  GlobalAttributes + 
+  CanBeMaskedAttributes + 
+  StrokeAttributes + 
+  StrokeEndAttributes +
+  StrokeJoinAttributes +
+  FillAttributes +
+  MarkerAttributes +
     ( d :: String
     , transform :: String
     )
@@ -271,7 +175,7 @@ type SVGrect = GlobalAttributes + CanBeMaskedAttributes + StrokeAttributes + Str
     , transform :: String
     )
 
-type SVGtext = GlobalAttributes + CanBeMaskedAttributes + StrokeAttributes + StokeEndAttributes
+type SVGtext = GlobalAttributes + CanBeMaskedAttributes + StrokeAttributes + StrokeEndAttributes
   + StrokeJoinAttributes
   + FillAttributes
   + FontAttributes
@@ -283,7 +187,7 @@ type SVGtext = GlobalAttributes + CanBeMaskedAttributes + StrokeAttributes + Sto
     , transform :: String
     )
 
-type SVGuse = GlobalAttributes + CanBeMaskedAttributes + StrokeAttributes + StokeEndAttributes
+type SVGuse = GlobalAttributes + CanBeMaskedAttributes + StrokeAttributes + StrokeEndAttributes
   + StrokeJoinAttributes
   + FillAttributes
   + FontAttributes
@@ -335,29 +239,4 @@ type SVGimage = GlobalAttributes
 -- TODO should this have GlobalAttributes?
 type SVGmpath = (xlinkHref :: String)
 
---------------------------------------------------------------------------------
-
 type SVGtitle = GlobalAttributes ()
-
-type GradientAttributes r =
-  ( gradientUnits :: String
-  , gradientTransform :: String
-  , href :: String
-  , spreadMethod :: String
-  | r
-  )
-
-type SVGlinearGradient = CoreAttributes + GlobalEventAttributes + StrokeAttributes + GradientAttributes
-  ( x1 :: Number
-  , y1 :: Number
-  , x2 :: Number
-  , y2 :: Number
-  )
-
-type SVGradialGradient = CoreAttributes + GlobalEventAttributes + StrokeAttributes + GradientAttributes
-  ( cx :: Number
-  , cy :: Number
-  , fr :: Number
-  , fx :: Number
-  , fy :: Number
-  )

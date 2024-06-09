@@ -3,15 +3,23 @@
   "description": "A collection of SVG elements for Halogen.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JordanMartinez/purescript-halogen-svg-elems.git"
+    "url": "https://github.com/MitchStevens/purescript-halogen-svg-elems.git"
   },
   "keywords": [
     "halogen",
     "svg"
   ],
+  "type": "module",
   "scripts": {
-    "test": "spago bundle-app -m Test.Main -t dist/test.js",
-    "test-watch": "spago bundle-app -m Test.Main -t dist/test.js --watch",
+    "test": "spago bundle",
+    "test-watch": "fd . -e purs | entr -s 'npm run test'",
+    "migrate": "spago --migrate",
     "format": "purs-tidy format-in-place src test"
-  }
+  },
+  "devDependencies": {
+    "esbuild": "^0.21.4",
+    "purescript": "^0.15.15",
+    "spago": "next"
+  },
+  "dependencies": { }
 }
