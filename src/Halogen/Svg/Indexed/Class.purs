@@ -3,6 +3,7 @@ module Halogen.Svg.Indexed.Class where
 import Prelude
 
 import Type.Row (type (+))
+import Web.Clipboard.ClipboardEvent (ClipboardEvent)
 import Web.UIEvent.KeyboardEvent (KeyboardEvent)
 import Web.UIEvent.MouseEvent (MouseEvent)
 import Web.UIEvent.WheelEvent (WheelEvent)
@@ -35,7 +36,16 @@ C indicates that the collection of attributes does not apply to that element
 -}
 
 -- These core attributes are applicable to every element
-type CoreAttributes r = (id :: String, "class" :: String, style :: String, tabIndex :: Int, lang :: String | r)
+type CoreAttributes r =
+  ( id :: String
+  , "class" :: String
+  , style :: String
+  , tabIndex :: Int
+  , lang :: String
+  , xmlns :: String
+  , version :: String
+  , visibility :: String
+  | r)
 
 -- Subset of events that work on Firefox 60/Chromium 66
 type GlobalEventAttributes r =
@@ -56,32 +66,97 @@ type GlobalEventAttributes r =
   | r
   )
 
-type GlobalAttributes r = CoreAttributes + GlobalEventAttributes + r
+type AriaAttributes r =
+  ( "aria-activedescendant" :: String
+  , "aria-atomic" :: String
+  , "aria-autocomplete" :: String
+  , "aria-busy" :: String
+  , "aria-checked" :: String
+  , "aria-colcount" :: String
+  , "aria-colindex" :: String
+  , "aria-colspan" :: String
+  , "aria-controls" :: String
+  , "aria-current" :: String
+  , "aria-describedby" :: String
+  , "aria-details" :: String
+  , "aria-disabled" :: String
+  , "aria-dropeffect" :: String
+  , "aria-errormessage" :: String
+  , "aria-expanded" :: String
+  , "aria-flowto" :: String
+  , "aria-grabbed" :: String
+  , "aria-haspopup" :: String
+  , "aria-hidden" :: String
+  , "aria-invalid" :: String
+  , "aria-keyshortcuts" :: String
+  , "aria-label" :: String
+  , "aria-labelledby" :: String
+  , "aria-level" :: String
+  , "aria-live" :: String
+  , "aria-modal" :: String
+  , "aria-multiline" :: String
+  , "aria-multiselectable" :: String
+  , "aria-orientation" :: String
+  , "aria-owns" :: String
+  , "aria-placeholder" :: String
+  , "aria-posinset" :: String
+  , "aria-pressed" :: String
+  , "aria-readonly" :: String
+  , "aria-relevant" :: String
+  , "aria-required" :: String
+  , "aria-roledescription" :: String
+  , "aria-rowcount" :: String
+  , "aria-rowindex" :: String
+  , "aria-rowspan" :: String
+  , "aria-selected" :: String
+  , "aria-setsize" :: String
+  , "aria-sort" :: String
+  , "aria-valuemax" :: String
+  , "aria-valuemin" :: String
+  , "aria-valuenow" :: String
+  , "aria-valuetext" :: String
+  , role :: String
+  | r)
+
+type ConditionalProcessingAttributes r =
+  ( requiredExtensions :: String
+  , systemLanguage :: String
+  | r
+  )
+
+type DocumentElementEventAttributes r =
+  ( oncopy :: ClipboardEvent
+  , oncut :: ClipboardEvent
+  , onpaste :: ClipboardEvent
+  | r
+  )
+
 
 -- Presentation attributes, grouped by applicability (see table above) ---------
 type StrokeAttributes r =
-  ( stroke :: String
-  , strokeDashArray :: String
-  , strokeDashOffset :: Number
-  , strokeOpacity :: Number
-  , strokeWidth :: Number
+  ( "stroke" :: String
+  , "stroke-dasharray" :: String
+  , "stroke-dashoffset" :: String
+  , "stroke-opacity" :: String
+  , "stroke-width" :: String
   | r
   )
 
 type StrokeEndAttributes r =
-  ( strokeLineCap :: String
+  ( "stroke-linecap" :: String
   | r
   )
 
 type StrokeJoinAttributes r =
-  ( strokeLineJoin :: String
-  , strokeMiterLimit :: String
+  ( "stroke-linejoin" :: String
+  , "stroke-miterlimit" :: String
   | r
   )
 
 type FillAttributes r =
-  ( fill :: String
-  , fillOpacity :: Number
+  ( "fill" :: String
+  , "fill-rule" :: String
+  , "fill-opacity" :: String
   | r
   )
 
@@ -93,13 +168,18 @@ type MarkerAttributes r =
   )
 
 type FontAttributes r =
-  ( fontFamily :: String
-  , fontSize :: String
-  , fontSizeAdjust :: Number
-  , fontStretch :: String
-  , fontStyle :: String
-  , fontVariant :: String
-  , fontWeight :: String
+  ( "font-family" :: String
+  , "font-size" :: String
+  , "font-size-adjust" :: Number
+  , "font-stretch" :: String
+  , "font-style" :: String
+  , "font-variant" :: String
+  , "font-weight" :: String
+  | r
+  )
+
+type TextAttributes r =
+  ( "text-anchor" :: String
   | r
   )
 
@@ -108,15 +188,16 @@ type CanBeMaskedAttributes r =
   | r
   )
 
-type AllPresentationAttributes r =
+type PresentationAttributes r =
   StrokeAttributes + 
   StrokeJoinAttributes + 
   StrokeEndAttributes +
   FillAttributes +
   FontAttributes +
+  TextAttributes +
   MarkerAttributes +
   CanBeMaskedAttributes +
-  r
+  ( transform :: String | r)
 
 type FilterPrimitiveAttributes r =
   ( x :: Number

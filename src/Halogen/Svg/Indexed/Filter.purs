@@ -4,12 +4,12 @@ import Prelude
 
 import Halogen.Svg.Attributes.Filter (ColorMatrixType, CompositeOperator, EdgeMode, FilterInput, FilterUnits, FunctionType, MorphologyOperator, PrimitiveUnits, RGBAChannel, TurbulenceType)
 import Halogen.Svg.Attributes.Image (CrossOrigin)
-import Halogen.Svg.Indexed.Class (AllPresentationAttributes, CoreAttributes, FilterPrimitiveAttributes)
+import Halogen.Svg.Indexed.Class (CoreAttributes, FilterPrimitiveAttributes, PresentationAttributes)
 import Type.Row (type (+))
 
 type SVGfilter = 
   CoreAttributes + 
-  AllPresentationAttributes +
+  PresentationAttributes +
     ( x :: Number
     , y :: Number
     , width :: Number
@@ -21,7 +21,7 @@ type SVGfilter =
 -- Filter Primitives
 type SVGfeBlend = 
   CoreAttributes + 
-  AllPresentationAttributes + 
+  PresentationAttributes + 
   FilterPrimitiveAttributes +
     ( in :: FilterInput
     , in2 :: FilterInput
@@ -30,7 +30,7 @@ type SVGfeBlend =
 
 type SVGfeColorMatrix =
   CoreAttributes + 
-  AllPresentationAttributes + 
+  PresentationAttributes + 
   FilterPrimitiveAttributes +
     ( in :: FilterInput
     , type :: ColorMatrixType
@@ -39,14 +39,14 @@ type SVGfeColorMatrix =
 
 type SVGfeComponentTransfer =
   CoreAttributes + 
-  AllPresentationAttributes + 
+  PresentationAttributes + 
   FilterPrimitiveAttributes +
     ( in :: FilterInput
     )
 
 type SVGfeComposite = 
   CoreAttributes + 
-  AllPresentationAttributes + 
+  PresentationAttributes + 
   FilterPrimitiveAttributes +
     ( in :: FilterInput
     , in2 :: FilterInput
@@ -59,7 +59,7 @@ type SVGfeComposite =
 
 type SVGfeConvolveMatrix =
   CoreAttributes + 
-  AllPresentationAttributes + 
+  PresentationAttributes + 
   FilterPrimitiveAttributes +
     ( in :: FilterInput
     , order :: Int
@@ -74,7 +74,7 @@ type SVGfeConvolveMatrix =
 
 type SVGfeDiffuseLighting =
   CoreAttributes + 
-  AllPresentationAttributes + 
+  PresentationAttributes + 
   FilterPrimitiveAttributes +
     ( in :: FilterInput
     , surfaceScale :: Number
@@ -83,7 +83,7 @@ type SVGfeDiffuseLighting =
 
 type SVGfeDisplacementMap =
   CoreAttributes + 
-  AllPresentationAttributes + 
+  PresentationAttributes + 
   FilterPrimitiveAttributes +
     ( in :: FilterInput
     , in2 :: FilterInput
@@ -94,7 +94,7 @@ type SVGfeDisplacementMap =
 
 type SVGfeDropShadow =
   CoreAttributes + 
-  AllPresentationAttributes + 
+  PresentationAttributes + 
   FilterPrimitiveAttributes +
     ( in :: FilterInput
     , stdDeviation :: Number
@@ -104,7 +104,7 @@ type SVGfeDropShadow =
 
 type SVGfeFlood =
   CoreAttributes + 
-  AllPresentationAttributes + 
+  PresentationAttributes + 
   FilterPrimitiveAttributes +
     ()
 
@@ -126,7 +126,7 @@ type SVGfeFuncR = SVGfeFuncA
 
 type SVGfeGaussianBlur =
   CoreAttributes + 
-  AllPresentationAttributes + 
+  PresentationAttributes + 
   FilterPrimitiveAttributes
     ( in :: FilterInput
     , stdDeviation :: Number
@@ -135,7 +135,7 @@ type SVGfeGaussianBlur =
 
 type SVGfeImage =
   CoreAttributes + 
-  AllPresentationAttributes + 
+  PresentationAttributes + 
   FilterPrimitiveAttributes
     ( crossorigin :: CrossOrigin
     , preserveAspectRatio :: String
@@ -143,19 +143,19 @@ type SVGfeImage =
 
 type SVGfeMerge =
   CoreAttributes + 
-  AllPresentationAttributes + 
+  PresentationAttributes + 
   FilterPrimitiveAttributes +
   ()
 
 type SVGfeMergeNode =
   CoreAttributes + 
-  AllPresentationAttributes + 
+  PresentationAttributes + 
   FilterPrimitiveAttributes
     ( in :: FilterInput )
 
 type SVGfeMorphology =
   CoreAttributes + 
-  AllPresentationAttributes + 
+  PresentationAttributes + 
   FilterPrimitiveAttributes
     ( in :: FilterInput
     , operator :: MorphologyOperator
@@ -163,7 +163,7 @@ type SVGfeMorphology =
 
 type SVGfeOffset =
   CoreAttributes + 
-  AllPresentationAttributes + 
+  PresentationAttributes + 
   FilterPrimitiveAttributes
     ( in :: FilterInput
     , dx :: Number
@@ -172,7 +172,7 @@ type SVGfeOffset =
 
 type SVGfeSpecularLighting =
   CoreAttributes + 
-  AllPresentationAttributes + 
+  PresentationAttributes + 
   FilterPrimitiveAttributes
     ( in :: FilterInput 
     , surfaceScale :: Number 
@@ -183,13 +183,13 @@ type SVGfeSpecularLighting =
 
 type SVGfeTile =
   CoreAttributes + 
-  AllPresentationAttributes + 
+  PresentationAttributes + 
   FilterPrimitiveAttributes
     ( in :: FilterInput )
 
 type SVGfeTurbulence =
   CoreAttributes + 
-  AllPresentationAttributes + 
+  PresentationAttributes + 
   FilterPrimitiveAttributes
     ( baseFrequency :: Array Number
     , numOctaves :: Int

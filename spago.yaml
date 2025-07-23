@@ -7,9 +7,11 @@ package:
     - foldable-traversable
     - halogen
     - halogen-hooks
+    - heterogeneous
     - maybe
     - newtype
     - prelude
+    - variant
     - safe-coerce
     - strings
     - tuples
@@ -17,15 +19,12 @@ package:
     - web-dom
     - web-uievents
 
-  bundle:
-    minify: false
-    module: Main
-    outfile: "dist/test.js"
-    platform: browser
-    type: "app"
-
-
+  test:
+    dependencies:
+      - spec
+      - spec-discovery
+    main: Test.Main
 
 workspace:
   package_set:
-    registry: 50.0.0
+    registry: 65.2.0

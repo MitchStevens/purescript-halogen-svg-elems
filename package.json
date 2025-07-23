@@ -11,7 +11,11 @@
   ],
   "type": "module",
   "scripts": {
-    "test": "spago bundle",
+    "build": "spago build",
+    "build-watch": "fd . -e purs | entr -s 'npm run build'",
+    "build-svg-spec-tests": "spago build -p svg-specification-tests && spago bundle -p svg-specification-tests",
+    "build-svg-spec-tests-watch": "fd . -e purs | entr -s 'npm run build-svg-spec-tests'",
+    "test": "spago test",
     "test-watch": "fd . -e purs | entr -s 'npm run test'",
     "migrate": "spago --migrate",
     "format": "purs-tidy format-in-place src test"
